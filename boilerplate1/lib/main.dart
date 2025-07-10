@@ -74,7 +74,10 @@ class _BoilerplateState extends State<Boilerplate> {
               leading: const Icon(Icons.favorite, color: Color(0xff7B7A7A)),
               title: const Text(
                 'Icon : favorite',
-                style: TextStyle(fontSize: 14),
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                ),
               ),
             ),
           ],
@@ -86,7 +89,10 @@ class _BoilerplateState extends State<Boilerplate> {
           height: double.infinity,
           color: Colors.white,
           child: Center(
-            child: Text('Copyright 2022 SODA  All rights reserved.'),
+            child: Text(
+              'Copyright 2022 SODA  All rights reserved.',
+              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.6)),
+            ),
           ),
         ),
       ),
