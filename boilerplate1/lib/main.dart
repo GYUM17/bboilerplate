@@ -55,7 +55,6 @@ class _BoilerplateState extends State<Boilerplate> {
         ),
       ),
       drawer: Drawer(
-        surfaceTintColor: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -81,12 +80,22 @@ class _BoilerplateState extends State<Boilerplate> {
           ],
         ),
       ),
-      body: Center(child: Text('Copyright 2022 SODA  All rights reserved.')),
+      body: Center(
+        child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: Colors.white,
+          child: Center(
+            child: Text('Copyright 2022 SODA  All rights reserved.'),
+          ),
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite),
-            label: 'Favorite',
+            label: 'Favorites',
           ),
           BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
           BottomNavigationBarItem(
