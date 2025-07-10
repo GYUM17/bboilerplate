@@ -118,6 +118,8 @@ class _BoilerplateState extends State<Boilerplate> {
         showUnselectedLabels: true,
         unselectedItemColor: Color(0xff979797),
         selectedItemColor: Color(0xff4B6EB1),
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
       ),
