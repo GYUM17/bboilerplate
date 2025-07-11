@@ -1,122 +1,289 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    return const MaterialApp(
+      home: Boilerplate(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class Boilerplate extends StatefulWidget {
+  const Boilerplate({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Boilerplate> createState() => _BoilerplateState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
+class _BoilerplateState extends State<Boilerplate> {
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        backgroundColor: Color(0xff182949),
+        title: const Text(
+          'SODA',
+          style: TextStyle(
+            color: Colors.white,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        centerTitle: false,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.menu, color: Colors.white),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.share, color: Colors.white),
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: const Icon(Icons.search, color: Colors.white),
+            onPressed: () {},
+          ),
+        ],
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
+      drawer: Drawer(
+        backgroundColor: Colors.white,
+        child: ListView(
+          padding: EdgeInsets.zero,
           children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+            const DrawerHeader(
+              decoration: BoxDecoration(color: Color(0xff182949)),
+              child: Text(
+                'SODA',
+                style: TextStyle(
+                  fontFamily: 'Roboto',
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.favorite, color: Color(0xff7B7A7A)),
+              title: const Text(
+                'Icon : favorite',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Color.fromRGBO(0, 0, 0, 0.6),
+                ),
+              ),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //Card1
+          Card(
+            color: Colors.white,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+              side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
+            ),
+            margin: EdgeInsets.all(11),
+            child: ListTile(
+              leading: Icon(Icons.airplay_outlined, color: Color(0xff979797)),
+              title: Text(
+                'This is ListTile',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.87),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    letterSpacing: 0.15,
+                  ),
+                ),
+              ),
+              subtitle: Text(
+                'List Tile 1',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color(0xff979797),
+                    fontSize: 14,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          //Card2
+          Card(
+            color: Colors.white,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+              side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
+            ),
+            //margin: EdgeInsets.only(top: 14, right: 13, bottom: 12, left: 16),
+            margin: EdgeInsets.only(left: 11, right: 11, bottom: 11),
+            child: ListTile(
+              leading: Icon(Icons.airplay_outlined, color: Color(0xff979797)),
+              title: Text(
+                'This is ListTile',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.87),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    letterSpacing: 0.15,
+                  ),
+                ),
+              ),
+              subtitle: Text(
+                'List Tile 2',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color(0xff979797),
+                    fontSize: 14,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          //Card3
+          Card(
+            color: Colors.white,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+              side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.1)),
+            ),
+            margin: EdgeInsets.only(left: 11, right: 11, bottom: 11),
+            child: ListTile(
+              leading: Icon(Icons.airplay_outlined, color: Color(0xff979797)),
+              title: Text(
+                'This is ListTile',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color.fromRGBO(0, 0, 0, 0.87),
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20,
+                    letterSpacing: 0.15,
+                  ),
+                ),
+              ),
+              subtitle: Text(
+                'List Tile 3',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color(0xff979797),
+                    fontSize: 14,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+            padding: EdgeInsets.fromLTRB(8, 0, 0, 0),
+            //color: Colors.black,
+            child: TextButton(
+              onPressed: () {},
+              child: Text(
+                'Text Button',
+                style: GoogleFonts.roboto(
+                  textStyle: TextStyle(
+                    color: Color(0xff182949),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.25,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(17, 0, 0, 20),
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(bottom: 10),
+                    child: Ink(
+                      decoration: ShapeDecoration(
+                        shape: CircleBorder(),
+                        color: Color(0xff182949),
+                      ),
+                      child: IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.settings, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        Color(0xffFFE8E8),
+                      ),
+                      side: WidgetStatePropertyAll(BorderSide.none),
+                    ),
+                    child: Text(
+                      'Outline Button',
+                      style: GoogleFonts.roboto(
+                        textStyle: TextStyle(color: Color(0xff182949)),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Divider(thickness: 2, color: Colors.black, indent: 13, endIndent: 14),
+
+          Center(
+            child: Container(
+              margin: EdgeInsets.fromLTRB(0, 15, 0, 15),
+              child: Text('Copyright 2022 SODA All rights reserved.'),
+            ),
+          ),
+        ],
+      ),
+
+      floatingActionButton: Container(
+        margin: EdgeInsets.only(bottom: 35),
+        child: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: Color(0xff182949),
+          shape: CircleBorder(side: BorderSide()),
+          child: Icon(Icons.add, color: Colors.white),
+        ),
+      ),
     );
   }
 }
