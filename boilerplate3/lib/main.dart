@@ -37,6 +37,20 @@ class MyApp extends StatelessWidget {
           children: [
             Padding(padding: const EdgeInsets.all(20.0), child: MyTextfield()),
             RadioExample(),
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0, top: 20),
+              child: ListTile(
+                title: Text(
+                  '버튼을 눌러 날짜를 선택해주세요.',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 14,
+                    letterSpacing: 1.25,
+                  ),
+                ),
+                trailing: MyTextButton(),
+              ),
+            ),
           ],
         ),
 
@@ -73,6 +87,53 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class MyTextButton extends StatefulWidget {
+  const MyTextButton({super.key});
+
+  @override
+  State<MyTextButton> createState() => _MyTextButtonState();
+}
+
+class _MyTextButtonState extends State<MyTextButton> {
+  DateTime? selectedDate;
+
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2025, 7, 12),
+      firstDate: DateTime(2001),
+      lastDate: DateTime(2030),
+    );
+
+    setState(() {
+      selectedDate = pickedDate;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: Color.fromRGBO(0, 0, 0, 0.12)),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        padding: EdgeInsets.only(bottom: 6, top: 6, left: 10, right: 10),
+      ),
+      onPressed: _selectDate,
+      child: Text(
+        'SELECT DATE',
+        style: GoogleFonts.roboto(
+          textStyle: TextStyle(color: Color(0xff4B6EB1)),
+          fontWeight: FontWeight.w500,
+          fontSize: 14,
+          letterSpacing: 1.25,
+        ),
+      ),
+    );
+  }
+}
+
 class MyTextfield extends StatefulWidget {
   const MyTextfield({super.key});
 
@@ -84,6 +145,7 @@ class _MyTextfieldState extends State<MyTextfield> {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       decoration: InputDecoration(
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(width: 1),
@@ -183,18 +245,20 @@ class RadioExample extends StatefulWidget {
 }
 
 class _RadioExampleState extends State<RadioExample> {
+  bool isChecked = false;
+  bool isChecked2 = false;
+
   SingingCharacter? _character = SingingCharacter.male;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Row(
-          children: [
-            Center(
-              child: Row(
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Row(
                 children: [
                   Radio<SingingCharacter>(
                     activeColor: Color(0xff4B6EB1),
@@ -215,31 +279,138 @@ class _RadioExampleState extends State<RadioExample> {
                   ),
                 ],
               ),
-            ),
-            Row(
-              children: [
-                Radio<SingingCharacter>(
-                  activeColor: Color(0xff4B6EB1),
-                  value: SingingCharacter.female,
-                  groupValue: _character,
-                  onChanged: (SingingCharacter? value) {
-                    setState(() {
-                      _character = value;
-                    });
-                  },
+              Padding(
+                padding: const EdgeInsets.only(left: 40.0),
+                child: Row(
+                  children: [
+                    Radio<SingingCharacter>(
+                      activeColor: Color(0xff4B6EB1),
+                      value: SingingCharacter.female,
+                      groupValue: _character,
+                      onChanged: (SingingCharacter? value) {
+                        setState(() {
+                          _character = value;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Female',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  'Female',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1.0,
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                    fillColor: WidgetStateProperty.resolveWith<Color>((
+                      Set<WidgetState> states,
+                    ) {
+                      if (states.contains(WidgetState.selected)) {
+                        return Color(0xff4B6EB1);
+                      }
+                      return Colors.white;
+                    }),
+                    value: isChecked,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isChecked = value!;
+                      });
+                    },
                   ),
+                  Text(
+                    'Designer',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 9.0),
+                child: Row(
+                  children: [
+                    Checkbox(
+                      fillColor: WidgetStateProperty.resolveWith<Color>((
+                        Set<WidgetState> states,
+                      ) {
+                        if (states.contains(WidgetState.selected)) {
+                          return Color(0xff4B6EB1);
+                        }
+                        return Colors.white;
+                      }),
+                      value: isChecked2,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked2 = value!;
+                        });
+                      },
+                    ),
+                    Text(
+                      'Developer',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 1.0,
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class MyDatePicker extends StatefulWidget {
+  const MyDatePicker({super.key});
+
+  @override
+  State<MyDatePicker> createState() => _MyDatePicker();
+}
+
+class _MyDatePicker extends State<MyDatePicker> {
+  DateTime? selectedDate;
+
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2021, 7, 25),
+      firstDate: DateTime(2021),
+      lastDate: DateTime(2022),
+    );
+
+    setState(() {
+      selectedDate = pickedDate;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 20,
+      children: <Widget>[
+        Text(
+          selectedDate != null
+              ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+              : 'No date selected',
+        ),
+        OutlinedButton(
+          onPressed: _selectDate,
+          child: const Text('Select Date'),
+        ),
+      ],
     );
   }
 }
