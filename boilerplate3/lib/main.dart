@@ -15,11 +15,7 @@ class MyApp extends StatelessWidget {
           backgroundColor: Color(0xff182949),
           title: const Text(
             'SODA',
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Roboto',
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
           ),
           centerTitle: false,
           leading: Builder(
@@ -37,6 +33,12 @@ class MyApp extends StatelessWidget {
           ],
         ),
         drawer: Mydrawer(),
+        body: Column(
+          children: [
+            Padding(padding: const EdgeInsets.all(20.0), child: MyTextfield()),
+            RadioExample(),
+          ],
+        ),
 
         floatingActionButton: Container(
           child: FloatingActionButton(
@@ -66,6 +68,37 @@ class MyApp extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class MyTextfield extends StatefulWidget {
+  const MyTextfield({super.key});
+
+  @override
+  State<MyTextfield> createState() => _MyTextfieldState();
+}
+
+class _MyTextfieldState extends State<MyTextfield> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(width: 1),
+          borderRadius: BorderRadius.zero,
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.zero,
+        ),
+        hint: Text(
+          'Name',
+          style: TextStyle(fontWeight: FontWeight.w400, letterSpacing: 0.15),
+        ),
+        filled: true,
+        fillColor: Color.fromRGBO(33, 33, 33, 0.08),
       ),
     );
   }
@@ -136,6 +169,77 @@ class _MySwitch extends State<MySwitch> {
           light = value;
         });
       },
+    );
+  }
+}
+
+enum SingingCharacter { male, female }
+
+class RadioExample extends StatefulWidget {
+  const RadioExample({super.key});
+
+  @override
+  State<RadioExample> createState() => _RadioExampleState();
+}
+
+class _RadioExampleState extends State<RadioExample> {
+  SingingCharacter? _character = SingingCharacter.male;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.amber,
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          children: [
+            Center(
+              child: Row(
+                children: [
+                  Radio<SingingCharacter>(
+                    activeColor: Color(0xff4B6EB1),
+                    value: SingingCharacter.male,
+                    groupValue: _character,
+                    onChanged: (SingingCharacter? value) {
+                      setState(() {
+                        _character = value;
+                      });
+                    },
+                  ),
+                  Text(
+                    'Male',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 1.0,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              children: [
+                Radio<SingingCharacter>(
+                  activeColor: Color(0xff4B6EB1),
+                  value: SingingCharacter.female,
+                  groupValue: _character,
+                  onChanged: (SingingCharacter? value) {
+                    setState(() {
+                      _character = value;
+                    });
+                  },
+                ),
+                Text(
+                  'Female',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.0,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
