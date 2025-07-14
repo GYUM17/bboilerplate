@@ -54,14 +54,7 @@ class MyApp extends StatelessWidget {
           ],
         ),
 
-        floatingActionButton: Container(
-          child: FloatingActionButton(
-            onPressed: () {},
-            backgroundColor: Color(0xff182949),
-            shape: CircleBorder(side: BorderSide()),
-            child: Icon(Icons.add, color: Colors.white),
-          ),
-        ),
+        floatingActionButton: MyFAB(),
         bottomNavigationBar: SizedBox(
           height: 70,
           child: Column(
@@ -83,6 +76,39 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class MyFAB extends StatelessWidget {
+  const MyFAB({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () => showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          shape: Border.all(style: BorderStyle.none),
+          backgroundColor: Colors.white,
+          content: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: const Text('+ 버튼을 누르셨습니다.'),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text(
+                '확인',
+                style: TextStyle(color: Color(0xff182949)),
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Color(0xff182949),
+      shape: CircleBorder(side: BorderSide()),
+      child: Icon(Icons.add, color: Colors.white),
     );
   }
 }
@@ -226,7 +252,25 @@ class _MySwitch extends State<MySwitch> {
       value: light,
       inactiveThumbColor: Colors.white,
       activeColor: Colors.white,
+
       onChanged: (bool value) {
+        if (value) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              duration:
+                  Durations.extralong1 +
+                  Durations.extralong1 +
+                  Durations.extralong1,
+              content: const Text('switch를 ON 하였습니다.'),
+              action: SnackBarAction(
+                label: 'OK',
+                onPressed: () {
+                  // Code to execute.
+                },
+              ),
+            ),
+          );
+        }
         setState(() {
           light = value;
         });
