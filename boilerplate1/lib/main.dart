@@ -32,6 +32,7 @@ class _BoilerplateState extends State<Boilerplate> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Color(0xff4B6EB1),
         title: const Text(
@@ -55,6 +56,7 @@ class _BoilerplateState extends State<Boilerplate> {
         ),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.white,
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
@@ -84,16 +86,9 @@ class _BoilerplateState extends State<Boilerplate> {
         ),
       ),
       body: Center(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          color: Colors.white,
-          child: Center(
-            child: Text(
-              'Copyright 2022 SODA  All rights reserved.',
-              style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.6)),
-            ),
-          ),
+        child: Text(
+          'Copyright 2022 SODA  All rights reserved.',
+          style: TextStyle(color: Color.fromRGBO(0, 0, 0, 0.6)),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
