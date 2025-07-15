@@ -22,22 +22,22 @@ class MyPageView extends StatefulWidget {
 }
 
 class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
+  late PageController _pageViewController;
+  late TabController _tabController;
   int _currentPageIndex = 0;
-  late PageController pageController;
-  late TabController tabController;
 
   @override
   void initState() {
     super.initState();
-    pageController = PageController();
-    tabController = TabController(length: 3, vsync: this);
+    _pageViewController = PageController();
+    _tabController = TabController(length: 3, vsync: this);
   }
 
   @override
   void dispose() {
     super.dispose();
-    pageController.dispose();
-    tabController.dispose();
+    _pageViewController.dispose();
+    _tabController.dispose();
   }
 
   @override
@@ -48,7 +48,7 @@ class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
         alignment: Alignment.bottomCenter,
         children: [
           PageView(
-            controller: pageController,
+            controller: _pageViewController,
             onPageChanged: _handlePageViewChanged,
             children: [
               Stack(
@@ -80,12 +80,10 @@ class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
               ),
             ],
           ),
-          TabPageSelector(
-            controller: tabController,
-            borderStyle: BorderStyle.none,
-            color: Color(0xffD8D8D8),
-            selectedColor: Color(0xff182949),
-            indicatorSize: 6,
+          PageIndicator(
+            tabController: _tabController,
+            currentPageIndex: _currentPageIndex,
+            onUpdateCurrentPageIndex: _updateCurrentPageIndex,
           ),
         ],
       ),
@@ -93,9 +91,42 @@ class _MyPageViewState extends State<MyPageView> with TickerProviderStateMixin {
   }
 
   void _handlePageViewChanged(int currentPageIndex) {
-    tabController.index = currentPageIndex;
+    _tabController.index = currentPageIndex;
     setState(() {
       _currentPageIndex = currentPageIndex;
     });
+  }
+
+  void _updateCurrentPageIndex(int index) {
+    _tabController.index = index;
+    _pageViewController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+  }
+}
+
+class PageIndicator extends StatelessWidget {
+  const PageIndicator({
+    super.key,
+    required this.tabController,
+    required this.currentPageIndex,
+    required this.onUpdateCurrentPageIndex,
+  });
+
+  final int currentPageIndex;
+  final TabController tabController;
+  final void Function(int) onUpdateCurrentPageIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return TabPageSelector(
+      controller: tabController,
+      color: Color(0xffD8D8D8),
+      selectedColor: Color(0xff182949),
+      borderStyle: BorderStyle.none,
+      indicatorSize: 6,
+    );
   }
 }
